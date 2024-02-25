@@ -61,5 +61,5 @@ const Goo = (function() {
     };
 })();
 
-document.addEventListener('DOMContentLoaded', Goo.initAnimations);
 window.Goo = Goo;
+document.addEventListener('DOMContentLoaded', Goo.initAnimations);
