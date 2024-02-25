@@ -28,8 +28,11 @@ $(document).ready(function() {
                 });
             }
 
+            // Adjusted to directly use the 'goo-duration' attribute value as seconds
+            const duration = parseFloat($this.attr('goo-duration')) || 1; // Use the value directly as seconds, with a default fallback
+
             const params = {
-                duration: $this.data('goo-duration') / 1000 || 1,
+                duration: duration,
                 ease: $this.data('goo-easing') || "power1.out",
                 scrollTrigger: {
                     trigger: $this,
@@ -39,6 +42,8 @@ $(document).ready(function() {
                     markers: debug
                 }
             };
+
+            console.log(`Applying animation '${animationName}' with type '${animationType}' and duration ${duration} seconds.`); // Debugging log
 
             if (animationName in animations && animationType in animations[animationName]) {
                 animations[animationName][animationType]($this, params);
