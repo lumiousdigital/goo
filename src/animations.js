@@ -8,7 +8,7 @@ export const animations = {
             scrollTrigger: params.scrollTrigger,
         }),
         scroll: (element, params) => gsap.fromTo(element,
-            { opacity: 0, y: -50 }, 
+            { opacity: 0, y: 50 }, 
             { opacity: 1, y: 0,
             duration: params.duration,
             ease: params.ease || "power1.out",
