@@ -23,27 +23,26 @@ $(document).ready(function() {
             
             if (['words', 'letters'].includes(animationType)) {
                 new SplitType($this[0], {
-                    types: animationType === 'words' ? 'words' : 'chars',
+                    types: ['words', 'chars'],
                     tagName: 'span'
                 });
             }
 
             // Adjusted to directly use the 'goo-duration' attribute value as seconds
             const duration = parseFloat($this.attr('goo-duration')) || 1; // Use the value directly as seconds, with a default fallback
-
+            const stagger = parseFloat($this.attr('goo-stagger')) || 0.5; // Default fallback to 0.5 if not specified
             const params = {
                 duration: duration,
                 ease: $this.data('goo-easing') || "power1.out",
+                stagger: stagger,
                 scrollTrigger: {
                     trigger: $this,
-                    start: $this.attr('goo-start') || "top bottom",
+                    start: $this.attr('goo-start') || "top 90%",
                     end: $this.attr('goo-end') || "bottom top",
-                    toggleActions: $this.attr('goo-actions') || "play pause resume reset",
+                    toggleActions: $this.attr('goo-actions') || "play none none reverse",
                     markers: debug
                 }
             };
-
-            console.log(`Applying animation '${animationName}' with type '${animationType}' and duration ${duration} seconds.`); // Debugging log
 
             if (animationName in animations && animationType in animations[animationName]) {
                 animations[animationName][animationType]($this, params);
