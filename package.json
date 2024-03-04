@@ -1,7 +1,7 @@
 {
-  "name": "goo",
-  "version": "1.0.0",
-  "description": "",
+  "name": "goo-motion-library",
+  "version": "1.0.1",
+  "description": "A no-code motion library replacing Webflow animations. Developed by Lumious",
   "main": "goo.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

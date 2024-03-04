@@ -1,30 +1,52 @@
 export const animations = {
     'fade-up': {
-        standard: (element, params) => gsap.from(element, {
-            opacity: 0,
-            y: 50,
-            duration: params.duration,
-            ease: params.ease || "power1.out",
-            scrollTrigger: params.scrollTrigger,
-        }),
-        scroll: (element, params) => gsap.fromTo(element,
-            { opacity: 0, y: 50 }, 
-            { opacity: 1, y: 0,
-            duration: params.duration,
-            ease: params.ease || "power1.out",
-            scrollTrigger: {
-                ...params.scrollTrigger,
-                scrub: true
-            }
-        }),
-        stagger: (element, params) => gsap.from(element.children(), {
-            opacity: 0,
-            y: 50,
-            duration: params.duration,
-            ease: params.ease || "power1.out",
-            stagger: params.stagger,
-            scrollTrigger: params.scrollTrigger,
-        }),
+        standard: (element, params) => {
+            $(element).css('transition-property', 'none'); // Disable transitions
+            gsap.from(element, {
+                opacity: 0,
+                y: 50,
+                duration: params.duration,
+                ease: params.ease || "power1.out",
+                scrollTrigger: params.scrollTrigger,
+                onComplete: () => $(element).css('transition-property', ''), // Re-enable transitions
+            });
+        },
+        scroll: (element, params) => {
+            $(element).css('transition-property', 'none'); // Disable transitions
+            gsap.fromTo(element,
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1, 
+                    y: 0,
+                    duration: params.duration,
+                    ease: params.ease || "power1.out",
+                    scrollTrigger: {
+                        ...params.scrollTrigger,
+                        scrub: true
+                    },
+                    onComplete: () => $(element).css('transition-property', ''), // Re-enable transitions
+                }
+            );
+        },
+        stagger: (element, params) => {
+            $(element).children().each(function() {
+                $(this).css('transition-property', 'none'); // Disable transitions for each child
+            });
+            gsap.from(element.children(), {
+                opacity: 0,
+                y: 50,
+                duration: params.duration,
+                ease: params.ease || "power1.out",
+                stagger: params.stagger,
+                scrollTrigger: params.scrollTrigger,
+                onComplete: () => {
+                    $(element).children().each(function() {
+                        $(this).css('transition-property', ''); // Re-enable transitions for each child
+                    });
+                },
+            });
+        },
+        // words and letters remain unchanged as per instructions
         words: (element, params) => gsap.from(element.find(".word"), {
             opacity: 0,
             yPercent: 120,
@@ -41,32 +63,48 @@ export const animations = {
             scrollTrigger: params.scrollTrigger,
         })
     },
+    
     'fade-down': {
-        standard: (element, params) => gsap.from(element, {
-            opacity: 0,
-            y: -50,
-            duration: params. duration,
-            ease: params.ease || "power1.out",
-            scrollTrigger: params.scrollTrigger,
-        }),
-        scroll: (element, params) => gsap.fromTo(element, 
-            { opacity: 0, y: -50 }, 
-            { opacity: 1, y: 0,
-            duration: params. duration,
-            ease: params.ease || "power1.out",
-            scrollTrigger: {
-                ...params.scrollTrigger,
-                scrub: true
-            }
-        }),
-        stagger: (element, params) => gsap.from(element.children(), {
-            opacity: 0,
-            y: -50,
-            duration: params. duration,
-            ease: params.ease || "power1.out",
-            stagger: params.stagger,
-            scrollTrigger: params.scrollTrigger,
-        }),
+        standard: (element, params) => {
+            $(element).css('transition-property', 'none'); // Disable transitions
+            gsap.from(element, {
+                opacity: 0,
+                y: -50,
+                duration: params.duration,
+                ease: params.ease || "power1.out",
+                scrollTrigger: params.scrollTrigger,
+                onComplete: () => $(element).css('transition-property', '') // Re-enable transitions
+            });
+        },
+        scroll: (element, params) => {
+            $(element).css('transition-property', 'none'); // Disable transitions
+            gsap.fromTo(element, 
+                { opacity: 0, y: -50 }, 
+                { 
+                    opacity: 1, y: 0,
+                    duration: params.duration,
+                    ease: params.ease || "power1.out",
+                    scrollTrigger: {
+                        ...params.scrollTrigger,
+                        scrub: true
+                    },
+                    onComplete: () => $(element).css('transition-property', '') // Re-enable transitions
+                }
+            );
+        },
+        stagger: (element, params) => {
+            $(element).children().css('transition-property', 'none'); // Disable transitions for children
+            gsap.from(element.children(), {
+                opacity: 0,
+                y: -50,
+                duration: params.duration,
+                ease: params.ease || "power1.out",
+                stagger: params.stagger,
+                scrollTrigger: params.scrollTrigger,
+                onComplete: () => $(element).children().css('transition-property', '') // Re-enable transitions for children
+            });
+        },
+        // 'words' and 'letters' remain untouched as per instructions
         words: (element, params) => gsap.from(element.find(".word"), {
             yPercent: -120,
             duration: params.duration,
@@ -82,30 +120,46 @@ export const animations = {
             scrollTrigger: params.scrollTrigger,
         })
     },
+    
     'fade-in': {
-        standard: (element, params) => gsap.from(element, {
-            opacity: 0,
-            duration: params. duration,
-            ease: params.ease || "power1.out",
-            scrollTrigger: params.scrollTrigger,
-        }),
-        scroll: (element, params) => gsap.fromTo(element, 
-            { opacity: 0 }, 
-            { opacity: 1,
-            duration: params. duration,
-            ease: params.ease || "power1.out",
-            scrollTrigger: {
-                ...params.scrollTrigger,
-                scrub: true
-            }
-        }),
-        stagger: (element, params) => gsap.from(element.children(), {
-            opacity: 0,
-            duration: params. duration,
-            ease: params.ease || "power1.out",
-            stagger: params.stagger,
-            scrollTrigger: params.scrollTrigger,
-        }),
+        standard: (element, params) => {
+            $(element).css('transition-property', 'none'); // Disable transitions
+            gsap.from(element, {
+                opacity: 0,
+                duration: params.duration,
+                ease: params.ease || "power1.out",
+                scrollTrigger: params.scrollTrigger,
+                onComplete: () => $(element).css('transition-property', '') // Re-enable transitions
+            });
+        },
+        scroll: (element, params) => {
+            $(element).css('transition-property', 'none'); // Disable transitions
+            gsap.fromTo(element, 
+                { opacity: 0 }, 
+                { 
+                    opacity: 1,
+                    duration: params.duration,
+                    ease: params.ease || "power1.out",
+                    scrollTrigger: {
+                        ...params.scrollTrigger,
+                        scrub: true
+                    },
+                    onComplete: () => $(element).css('transition-property', '') // Re-enable transitions
+                }
+            );
+        },
+        stagger: (element, params) => {
+            $(element).children().css('transition-property', 'none'); // Disable transitions for children
+            gsap.from(element.children(), {
+                opacity: 0,
+                duration: params.duration,
+                ease: params.ease || "power1.out",
+                stagger: params.stagger,
+                scrollTrigger: params.scrollTrigger,
+                onComplete: () => $(element).children().css('transition-property', '') // Re-enable transitions for children
+            });
+        },
+        // 'words' and 'letters' remain untouched as per instructions
         words: (element, params) => gsap.from(element.find(".word"), {
             opacity: 0,
             duration: params.duration,
@@ -121,32 +175,48 @@ export const animations = {
             scrollTrigger: params.scrollTrigger,
         })
     },
+    
     'fade-right': {
-        standard: (element, params) => gsap.from(element, {
-            opacity: 0,
-            x: 50,
-            duration: params.duration,
-            ease: params.ease || "power1.out",
-            scrollTrigger: params.scrollTrigger,
-        }),
-        scroll: (element, params) => gsap.fromTo(element,
-            { opacity: 0, x: 50 }, 
-            { opacity: 1, x: 0,
-            duration: params.duration,
-            ease: params.ease || "power1.out",
-            scrollTrigger: {
-                ...params.scrollTrigger,
-                scrub: true
-            }
-        }),
-        stagger: (element, params) => gsap.from(element.children(), {
-            opacity: 0,
-            x: 50,
-            duration: params.duration,
-            ease: params.ease || "power1.out",
-            stagger: params.stagger,
-            scrollTrigger: params.scrollTrigger,
-        }),
+        standard: (element, params) => {
+            $(element).css('transition-property', 'none'); // Disable transitions
+            gsap.from(element, {
+                opacity: 0,
+                x: 50,
+                duration: params.duration,
+                ease: params.ease || "power1.out",
+                scrollTrigger: params.scrollTrigger,
+                onComplete: () => $(element).css('transition-property', '') // Re-enable transitions
+            });
+        },
+        scroll: (element, params) => {
+            $(element).css('transition-property', 'none'); // Disable transitions
+            gsap.fromTo(element,
+                { opacity: 0, x: 50 }, 
+                { 
+                    opacity: 1, x: 0,
+                    duration: params.duration,
+                    ease: params.ease || "power1.out",
+                    scrollTrigger: {
+                        ...params.scrollTrigger,
+                        scrub: true
+                    },
+                    onComplete: () => $(element).css('transition-property', '') // Re-enable transitions
+                }
+            );
+        },
+        stagger: (element, params) => {
+            $(element).children().css('transition-property', 'none'); // Disable transitions for children
+            gsap.from(element.children(), {
+                opacity: 0,
+                x: 50,
+                duration: params.duration,
+                ease: params.ease || "power1.out",
+                stagger: params.stagger,
+                scrollTrigger: params.scrollTrigger,
+                onComplete: () => $(element).children().css('transition-property', '') // Re-enable transitions for children
+            });
+        },
+        // 'words' and 'letters' remain untouched as per instructions
         words: (element, params) => gsap.from(element.find(".word"), {
             opacity: 0,
             x: 20,
@@ -164,32 +234,48 @@ export const animations = {
             scrollTrigger: params.scrollTrigger,
         })
     },
+    
     'fade-left': {
-        standard: (element, params) => gsap.from(element, {
-            opacity: 0,
-            x: -50,
-            duration: params.duration,
-            ease: params.ease || "power1.out",
-            scrollTrigger: params.scrollTrigger,
-        }),
-        scroll: (element, params) => gsap.fromTo(element,
-            { opacity: 0, x: -50 }, 
-            { opacity: 1, x: 0,
-            duration: params.duration,
-            ease: params.ease || "power1.out",
-            scrollTrigger: {
-                ...params.scrollTrigger,
-                scrub: true
-            }
-        }),
-        stagger: (element, params) => gsap.from(element.children(), {
-            opacity: 0,
-            x: -50,
-            duration: params.duration,
-            ease: params.ease || "power1.out",
-            stagger: params.stagger,
-            scrollTrigger: params.scrollTrigger,
-        }),
+        standard: (element, params) => {
+            $(element).css('transition-property', 'none'); // Disable transitions
+            gsap.from(element, {
+                opacity: 0,
+                x: -50,
+                duration: params.duration,
+                ease: params.ease || "power1.out",
+                scrollTrigger: params.scrollTrigger,
+                onComplete: () => $(element).css('transition-property', '') // Re-enable transitions
+            });
+        },
+        scroll: (element, params) => {
+            $(element).css('transition-property', 'none'); // Disable transitions
+            gsap.fromTo(element,
+                { opacity: 0, x: -50 }, 
+                { 
+                    opacity: 1, x: 0,
+                    duration: params.duration,
+                    ease: params.ease || "power1.out",
+                    scrollTrigger: {
+                        ...params.scrollTrigger,
+                        scrub: true
+                    },
+                    onComplete: () => $(element).css('transition-property', '') // Re-enable transitions
+                }
+            );
+        },
+        stagger: (element, params) => {
+            $(element).children().css('transition-property', 'none'); // Disable transitions for children
+            gsap.from(element.children(), {
+                opacity: 0,
+                x: -50,
+                duration: params.duration,
+                ease: params.ease || "power1.out",
+                stagger: params.stagger,
+                scrollTrigger: params.scrollTrigger,
+                onComplete: () => $(element).children().css('transition-property', '') // Re-enable transitions for children
+            });
+        },
+        // 'words' and 'letters' remain untouched as per instructions
         words: (element, params) => gsap.from(element.find(".word"), {
             opacity: 0,
             x: -20,
@@ -207,34 +293,50 @@ export const animations = {
             scrollTrigger: params.scrollTrigger,
         })
     },
+    
     'scale-up': {
-        standard: (element, params) => gsap.from(element, {
-            opacity: 0,
-            y: 50,
-            scale: 0.6,
-            duration: params.duration,
-            ease: params.ease || "power1.out",
-            scrollTrigger: params.scrollTrigger,
-        }),
-        scroll: (element, params) => gsap.fromTo(element,
-            { opacity: 0, y: 50, scale: 0.8 }, 
-            { opacity: 1, y: 0, scale: 1,
-            duration: params.duration,
-            ease: params.ease || "power1.out",
-            scrollTrigger: {
-                ...params.scrollTrigger,
-                scrub: true
-            }
-        }),
-        stagger: (element, params) => gsap.from(element.children(), {
-            opacity: 0,
-            y: 50,
-            scale: 0.9,
-            duration: params.duration,
-            ease: params.ease || "power1.out",
-            stagger: params.stagger,
-            scrollTrigger: params.scrollTrigger,
-        }),
+        standard: (element, params) => {
+            $(element).css('transition-property', 'none'); // Disable transitions
+            gsap.from(element, {
+                opacity: 0,
+                y: 50,
+                scale: 0.6,
+                duration: params.duration,
+                ease: params.ease || "power1.out",
+                scrollTrigger: params.scrollTrigger,
+                onComplete: () => $(element).css('transition-property', '') // Re-enable transitions
+            });
+        },
+        scroll: (element, params) => {
+            $(element).css('transition-property', 'none'); // Disable transitions
+            gsap.fromTo(element,
+                { opacity: 0, y: 50, scale: 0.8 }, 
+                { 
+                    opacity: 1, y: 0, scale: 1,
+                    duration: params.duration,
+                    ease: params.ease || "power1.out",
+                    scrollTrigger: {
+                        ...params.scrollTrigger,
+                        scrub: true
+                    },
+                    onComplete: () => $(element).css('transition-property', '') // Re-enable transitions
+                }
+            );
+        },
+        stagger: (element, params) => {
+            $(element).children().css('transition-property', 'none'); // Disable transitions for children
+            gsap.from(element.children(), {
+                opacity: 0,
+                y: 50,
+                scale: 0.9,
+                duration: params.duration,
+                ease: params.ease || "power1.out",
+                stagger: params.stagger,
+                scrollTrigger: params.scrollTrigger,
+                onComplete: () => $(element).children().css('transition-property', '') // Re-enable transitions for children
+            });
+        },
+        // 'words' and 'letters' remain untouched as per instructions
         words: (element, params) => gsap.from(element.find(".word"), {
             opacity: 0,
             scale: 0.8,
@@ -252,32 +354,48 @@ export const animations = {
             scrollTrigger: params.scrollTrigger,
         })
     },
+    
     'scale-in': {
-        standard: (element, params) => gsap.from(element, {
-            opacity: 0,
-            scale: 0.6,
-            duration: params.duration,
-            ease: params.ease || "power1.out",
-            scrollTrigger: params.scrollTrigger,
-        }),
-        scroll: (element, params) => gsap.fromTo(element,
-            { opacity: 0, scale: 0.8 }, 
-            { opacity: 1, scale: 1,
-            duration: params.duration,
-            ease: params.ease || "power1.out",
-            scrollTrigger: {
-                ...params.scrollTrigger,
-                scrub: true
-            }
-        }),
-        stagger: (element, params) => gsap.from(element.children(), {
-            opacity: 0,
-            scale: 0.9,
-            duration: params.duration,
-            ease: params.ease || "power1.out",
-            stagger: params.stagger,
-            scrollTrigger: params.scrollTrigger,
-        }),
+        standard: (element, params) => {
+            $(element).css('transition-property', 'none'); // Disable transitions
+            gsap.from(element, {
+                opacity: 0,
+                scale: 0.6,
+                duration: params.duration,
+                ease: params.ease || "power1.out",
+                scrollTrigger: params.scrollTrigger,
+                onComplete: () => $(element).css('transition-property', '') // Re-enable transitions
+            });
+        },
+        scroll: (element, params) => {
+            $(element).css('transition-property', 'none'); // Disable transitions
+            gsap.fromTo(element,
+                { opacity: 0, scale: 0.8 }, 
+                { 
+                    opacity: 1, scale: 1,
+                    duration: params.duration,
+                    ease: params.ease || "power1.out",
+                    scrollTrigger: {
+                        ...params.scrollTrigger,
+                        scrub: true
+                    },
+                    onComplete: () => $(element).css('transition-property', '') // Re-enable transitions
+                }
+            );
+        },
+        stagger: (element, params) => {
+            $(element).children().css('transition-property', 'none'); // Disable transitions for children
+            gsap.from(element.children(), {
+                opacity: 0,
+                scale: 0.9,
+                duration: params.duration,
+                ease: params.ease || "power1.out",
+                stagger: params.stagger,
+                scrollTrigger: params.scrollTrigger,
+                onComplete: () => $(element).children().css('transition-property', '') // Re-enable transitions for children
+            });
+        },
+        // 'words' and 'letters' remain untouched as per instructions
         words: (element, params) => gsap.from(element.find(".word"), {
             opacity: 0,
             scale: 0.8,
@@ -295,6 +413,7 @@ export const animations = {
             scrollTrigger: params.scrollTrigger,
         })
     },
+    
     'skew': {
         scroll: (element, params) => {
             let proxy = { skew: 0 },
